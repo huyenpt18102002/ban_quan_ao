@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Size extends Model
+{
+    use HasFactory;
+
+    protected $table = 'sizes';
+    protected $primaryKey = 'id';
+    protected $guarded = [];
+
+    public function product_size(){
+        return $this ->HasMany(Product_Size::class, 'size_id', 'id');
+    }
+
+}
