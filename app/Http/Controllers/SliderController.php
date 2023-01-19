@@ -44,11 +44,13 @@ class SliderController extends Controller
             [
                 'title' => 'required|max:255',
                 'description' => 'nullable',
-                'image' => 'image|mimes:png,jpg,jfif,jpeg'
+                'image' => 'image|mimes:png,jpg,jfif,jpeg',
+                'link' => 'nullable|max:255',
             ],
             [
                 'title.required' => 'Tên danh mục bắt buộc phải nhập.',
                 'title.max' => 'Tên danh mục chỉ dài tối đa 255 kí tự.',
+                'link.max' => 'Tên tiêu đề chỉ dài tối đa 255 kí tự.',
             ]
         );
 
@@ -56,6 +58,7 @@ class SliderController extends Controller
         $slider->title = $data['title'];
         $slider->description = $data['description'];
         $slider->status = $request->status == true ? '0':'1';
+        $slider->link = $data['link'];
 
         $get_image = $request->file('image');
 
@@ -68,7 +71,7 @@ class SliderController extends Controller
             $slider->image = $new_image;
         }
         $slider->save();
-        //toastr()->success('Success', 'Thêm danh mục thành công.');
+        toastr()->success('Thành công', 'Thêm slider thành công.');
         return redirect()->route('slider.index');
     }
 
@@ -111,11 +114,15 @@ class SliderController extends Controller
             [
                 'title' => 'required|max:255',
                 'description' => 'nullable',
-                'image' => 'image|mimes:png,jpg,jfif,jpeg'
+                'image' => 'image|mimes:jpg,png,jpeg,gif,svg,jfif|max:2048',
+                'link' => 'nullable|max:255',
             ],
             [
-                'title.required' => 'Tên tieu de bắt buộc phải nhập.',
-                'title.max' => 'Tên danh mục chỉ dài tối đa 255 kí tự.',
+                'title.required' => 'Tên tiêu đề bắt buộc phải nhập.',
+                'title.max' => 'Tên tiêu đề chỉ dài tối đa 255 kí tự.',
+                'image.image' => 'File phải có đuôi jpg,png,jpeg,gif,svg,jfif.',
+                'image.max' => 'File chỉ có dung lượng tối đa 2GB.',
+                'link.max' => 'Tên tiêu đề chỉ dài tối đa 255 kí tự.',
             ]
         );
 
@@ -123,6 +130,8 @@ class SliderController extends Controller
         $slider->title = $data['title'];
         $slider->description = $data['description'];
         $slider->status = $request->status == true ? '0':'1';
+        $slider->link = $data['link'];
+
         $get_image = $request->file('image');
 
         $path = public_path().'/uploads/slider/'.$slider->image;
@@ -135,10 +144,10 @@ class SliderController extends Controller
             $new_image = $name_image.rand(0,9999).'.'.$get_image->getClientOriginalExtension();
             $get_image->move('uploads/slider/',$new_image);
             $slider->image = $new_image;
-
-    }
+        }
+        
         $slider->save();
-        //toastr()->success('Success', 'Thêm danh mục thành công.');
+        toastr()->success('Thành công', 'Cập nhật slider thành công.');
         return redirect()->route('slider.index');
     }
 
@@ -153,7 +162,7 @@ class SliderController extends Controller
         //
         $slider = Slider::find($id);
         $slider->delete();
-        //toastr()->info('Success', 'Xóa danh mục thành công.');
+        toastr()->info('Thành công', 'Xóa slider thành công.');
         return redirect()->back();
     }
 }

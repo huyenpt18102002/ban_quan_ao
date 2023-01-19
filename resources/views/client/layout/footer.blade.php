@@ -6,13 +6,13 @@
                     <div class="footer-left">
                         <div class="footer-logo">
                             <a href="index.html">
-                                <img src="front/img/footer-logo.png" alt="">
+                                <img src="{{asset('uploads/logo/'.$info->logo)}}" alt="">
                             </a>
                         </div>
                         <ul>
-                            <li>17A Hai Ba Trung . Ha Noi</li>
-                            <li>Phone: +84 43.12.56.347</li>
-                            <li>Email: huyenha200204@gmail.com</li>
+                            <li>Địa chỉ: {{$info->address}}</li>
+                            <li>Điện thoại: +84 {{substr($info->phone, 1, 13)}}</li>
+                            <li>Email: {{$info->email}}</li>
                         </ul>
                         <div class="footer-social">
                             <a href="#"><i class="fa fa-facebook"></i></a>
@@ -24,33 +24,33 @@
                 </div>
                 <div class="col-lg-2 offset-lg-1">
                     <div class="footer-widget">
-                        <h5>Information</h5>
+                        <h5>Thông tin</h5>
                         <ul>
-                            <li><a href="#">About us</a></li>
-                            <li><a href="#">Checkout</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Service</a></li>
+                            <li><a href="#">Về chúng tôi</a></li>
+                            <li><a href="#">Thanh toán</a></li>
+                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="#">Dịch vụ</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-2">
                     <div class="footer-widget">
-                        <h5>My account</h5>
+                        <h5>Tài khoản của bạn</h5>
                         <ul>
-                            <li><a href="#">My account</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Shopping Cart</a></li>
+                            <li><a href="#">Tài khoản của bạn</a></li>
+                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="#">Giỏ hàng</a></li>
                             <li><a href="#">Shop</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-4">
                    <div class="newslatter-item">
-                    <h5>Join Our Newsletter Now</h5>
-                    <p>Get E-mail update about our laters shop and special offers</p>
+                    <h5>Theo dõi shop</h5>
+                    <p>Theo dỗi bằng email của bạn để nhận ưu đãi hấp dẫn từ chúng tôi!</p>
                     <form action="#" class="subscribe-form">
                         <input type="text" placeholder="Enter Your Email:">
-                        <button type="button">Subscribe</button>
+                        <button type="button">Đăng lý</button>
                     </form>
                    </div>
                 </div>

@@ -29,6 +29,29 @@
         </div>
     </div>
 
+    <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+        <li class="nav-item">
+            <a href="{{route('product.edit', $product->id)}}" class="nav-link">
+                <span class="btn-icon-wrapper pr-2 opacity-8">
+                    <i class="fa fa-edit fa-w-20"></i>
+                </span>
+                <span>Edit</span>
+            </a>
+        </li>
+        <li class="nav-item delete">
+            <form action="{{route('product.destroy', $product->id)}}" method="post">
+                @method('DELETE')
+                @csrf
+                <button class="nav-link btn" type="submit"
+                    onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                    <span class="btn-icon-wrapper pr-2 opacity-8">
+                        <i class="fa fa-trash fa-w-20"></i>
+                    </span>
+                    <span>Delete</span>
+                </button>
+            </form>
+        </li>
+    </ul>
 
     <div class="row">
         <div class="col-md-12">
@@ -108,6 +131,14 @@
                             <p> {{$product->productCategory->name, $product->id}}</p>
                         </div>
                     </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="brand_id"
+                            class="col-md-3 text-md-right col-form-label">Nhà sản xuất</label>
+                        <div class="col-md-9 col-xl-8">
+                            <p> {{$product->manufacturer->name, $product->id}}</p>
+                        </div>
+                    </div>
                 
                     <div class="position-relative row form-group">
                         <label for="name" class="col-md-3 text-md-right col-form-label">Tên sản phẩm</label>
@@ -118,9 +149,17 @@
 
                     <div class="position-relative row form-group">
                         <label for="price"
+                            class="col-md-3 text-md-right col-form-label">Giá nhập</label>
+                        <div class="col-md-9 col-xl-8">
+                            <p>{{$product->price_origin}}.000 <sup>đ</sup></p>
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="price"
                             class="col-md-3 text-md-right col-form-label">Giá</label>
                         <div class="col-md-9 col-xl-8">
-                            <p>{{$product->price}}.000</p>
+                            <p>{{$product->price}}.000 <sup>đ</sup></p>
                         </div>
                     </div>
 
@@ -128,7 +167,11 @@
                         <label for="discount"
                             class="col-md-3 text-md-right col-form-label">Giá khuyến mại</label>
                         <div class="col-md-9 col-xl-8">
-                            <p>{{$product->discount}}.000</p>
+                            <p>   
+                                @if ($product->discount)
+                                {{$product->discount}}.000 <sup>đ</sup>
+                                @endif
+                            </p>
                         </div>
                     </div>
                     

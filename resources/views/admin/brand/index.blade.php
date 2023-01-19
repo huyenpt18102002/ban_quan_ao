@@ -46,10 +46,10 @@
                     <div class="container-fluid">
                     <table id="myTable" class="align-middle mb-0 table table-borderless table-striped table-hover">
                         <thead>
-                            <tr>
+                            <tr class="table-primary">
                                 <th class="text-center">ID</th>
-                                <th>Name</th>
-                                <th class="text-center">Actions</th>
+                                <th>Tên thương hiệu</th>
+                                <th class="text-center">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -11,9 +11,9 @@
                     <i class="pe-7s-ticket icon-gradient bg-mean-fruit"></i>
                 </div>
                 <div>
-                    Product Images
+                   Ảnh sản phẩm
                     <div class="page-title-subheading">
-                        View, create, update, delete and manage.
+                       Xem, tạo, cập nhật, xóa và quản lý
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Size;
 use App\Models\Product;
+use App\Models\Manufacturer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -22,6 +23,10 @@ class Product extends Model
 
     public function productCategory(){
         return $this->belongsTo(ProductCategory::class, 'product_category_id', 'id');
+    }
+
+    public function manufacturer(){
+        return $this->belongsTo(Manufacturer::class, 'manufacturer_id', 'id');
     }
 
     public function productImage(){

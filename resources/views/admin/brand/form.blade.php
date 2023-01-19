@@ -33,9 +33,9 @@
             <div class="main-card mb-3 card">
                 @if($errors->any())
                 <div class="alert alert-danger"><ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{$error}}</li>
-                    @endforeach
+                    @if ($errors->all())
+                    <li>Hãy kiểm tra lại dữ liệu của bạn!</li> 
+                    @endif
                     </ul>
                 </div>
                 @endif
@@ -49,18 +49,18 @@
 
                             @csrf
                         <div class="position-relative row form-group">
-                            <label for="name" class="col-md-3 text-md-right col-form-label">Name</label>
+                            <label for="name" class="col-md-3 text-md-right col-form-label">Tên</label>
                             <div class="col-md-9 col-xl-8">
-                                <input required name="name" id="slug" placeholder="Name" type="text"
+                                <input name="name" id="slug" placeholder="Tên thương hiệu" type="text"
                                     class="form-control" value="{{isset($brand) ? $brand->name : ''}}" onkeyup="ChangeToSlug()">
+                                    @error('name')
+                                    <small class="text-danger">{{$message}}</small>
+                                @enderror
                             </div>
                         </div>
                         <div class="position-relative row form-group">
-                            <label for="slug" class="col-md-3 text-md-right col-form-label">Slug</label>
-                            <div class="col-md-9 col-xl-8">
-                                <input required name="slug" id="convert_slug" placeholder="Slug" type="text"
+                                <input type="hidden" required name="slug" id="convert_slug" placeholder="Slug" type="text"
                                     class="form-control" readonly value="{{ isset($brand) ? $brand->slug : ''}}">
-                            </div>
                         </div>
 
                         <div class="position-relative row form-group mb-1">

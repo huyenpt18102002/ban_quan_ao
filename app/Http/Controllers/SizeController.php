@@ -54,7 +54,7 @@ class SizeController extends Controller
         $size->name = $data['name'];
         $size->status = $request->status == true ? '0':'1';
         $size->save();
-        //toastr()->success('Success', 'Thêm danh mục thành công.');
+        toastr()->success('Thành công', 'Thêm size thành công.');
         return redirect()->route('size.index');
     }
 
@@ -98,8 +98,8 @@ class SizeController extends Controller
                 'name' => 'required|max:255',
             ],
             [
-                'name.required' => 'Tên danh mục bắt buộc phải nhập.',
-                'name.max' => 'Tên danh mục chỉ dài tối đa 255 kí tự.',
+                'name.required' => 'Tên size bắt buộc phải nhập.',
+                'name.max' => 'Tên size chỉ dài tối đa 255 kí tự.',
             ]
         );
 
@@ -107,7 +107,7 @@ class SizeController extends Controller
         $size->name = $data['name'];
         $size->status = $request->status == true ? '0':'1';
         $size->save();
-        //toastr()->success('Success', 'Thêm danh mục thành công.');
+        toastr()->success('Thành công', 'Cập nhật size thành công.');
         return redirect()->route('size.index');
     }
 
@@ -122,7 +122,7 @@ class SizeController extends Controller
         //
         $size = Size::find($id);
         $size->delete();
-        //toastr()->info('Success', 'Xóa danh mục thành công.');
+        toastr()->info('Thành công', 'Xóa size thành công.');
         return redirect()->back();
     }
 }

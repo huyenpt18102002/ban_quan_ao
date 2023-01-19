@@ -33,9 +33,9 @@
             <div class="main-card mb-3 card">
                 @if($errors->any())
                 <div class="alert alert-danger"><ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{$error}}</li>
-                    @endforeach
+                    @if ($errors->all())
+                    <li>Hãy kiểm tra lại dữ liệu của bạn!</li> 
+                    @endif
                     </ul>
                 </div>
                 @endif
@@ -49,10 +49,13 @@
 
                             @csrf
                         <div class="position-relative row form-group">
-                            <label for="title" class="col-md-3 text-md-right col-form-label">Title</label>
+                            <label for="title" class="col-md-3 text-md-right col-form-label">Tiêu đề</label>
                             <div class="col-md-9 col-xl-8">
-                                <input required name="title" id="title" placeholder="Title" type="text"
+                                <input name="title" id="title" placeholder="Tiêu đề" type="text"
                                     class="form-control" value="{{isset($slider) ? $slider->title : ''}}">
+                                    @error('title')
+                                    <small class="text-danger">{{$message}}</small>
+                                @enderror
                             </div>
                         </div>
                         <div class="position-relative row form-group">
@@ -63,9 +66,19 @@
                             </div>
                         </div>
                         <div class="position-relative row form-group">
+                            <label for="link" class="col-md-3 text-md-right col-form-label">Đường dẫn</label>
+                            <div class="col-md-9 col-xl-8">
+                                <input name="link" id="link" placeholder="Đường dẫn" type="text"
+                                    class="form-control" value="{{isset($slider) ? $slider->link : ''}}">
+                                    @error('link')
+                                    <small class="text-danger">{{$message}}</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="position-relative row form-group">
                             <div class="col-md-3 text-md-right col-form-label">
                             {!! Form::label('status', 'Status') !!}
-                        </div>
+                        </div>   
                             <div class="col-md-9 col-xl-8">  
                                 @if(!isset($slider))         
                                 <input type="checkbox" name="status"/>
@@ -80,6 +93,11 @@
                         </div>
                         <div class="col-md-9 col-xl-8">
                             {!! Form::file('image', ['class'=>'form-control']) !!}
+                            @if(!isset($slider))
+                            @error('image')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
+                        @endif
                             @if(isset($slider))
                               <img class="me-4 border" style="margin:10px;width:200px;height:120px;" src="{{asset('uploads/slider/'.$slider->image)}}">
                             @endif

@@ -45,12 +45,13 @@
                     <div class="container-fluid">
                         <table id="myTable" class="align-middle mb-0 table table-borderless table-striped table-hover">
                             <thead>
-                                <tr>
+                                <tr class="table-primary">
                                     <th class="text-center">ID</th>
                                     <th>Sản phẩm / Thương hiệu</th>
+                                    <th class="text-center">Giá nhập</th>
                                     <th class="text-center">Giá</th>
-                                    <th class="text-center">Giá khuyến mại</th>
                                     <th class="text-center">Trend</th>
+                                    <th class="text-center">Trạng thái</th>
                                     <th class="text-center">Hành động</th>
                                 </tr>
                             </thead>
@@ -81,21 +82,47 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="badge badge-dark mt-2">
-                                            {{$cate->price}}.000
+                                            {{$cate->price_origin}}.000
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        {{$cate->discount}}.000
+                                        <div class="badge badge-danger mt-2">
+                                        @if ($cate->discount)
+                                        {{$cate->discount}}.000 
+                                        <div class="badge badge-dark mt-1">
+                                            <i>Sale</i>
+                                        </div>
+                                        @else
+                                        {{$cate->price}}.000
+                                        @endif
+                                    </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="badge badge-success mt-2">
-                                            {{$cate->featured ? 'No':'Yes'}}
-                                        </div>
+                                        <select name="" id="{{$cate->id}}" class="trend_choose">
+                                            @if ($cate->featured == 0)
+                                            <option value="1">No</option>
+                                            <option selected value="0">Yes</option>
+                                            @else
+                                            <option selected value="1">No</option>
+                                            <option value="0">Yes</option>
+                                            @endif
+                                          </select>
+                                    </td>
+                                    <td class="text-center">
+                                        <select name="" id="{{$cate->id}}" class="status_choose">
+                                            @if ($cate->status == 0)
+                                            <option value="1">Không</option>
+                                            <option selected value="0">Hiển thị</option>
+                                            @else
+                                            <option selected value="1">Không</option>
+                                            <option value="0">Hiển thị</option>
+                                            @endif
+                                          </select>
                                     </td>
                                     <td class="text-center">
                                         <a href="{{route('product.show', $cate->id)}}"
                                             class="btn btn-hover-shine btn-outline-primary border-0 btn-sm">
-                                            Details
+                                          Chi tiết
                                         </a>
                                         <br>
                                         <a href="{{route('product.edit', $cate->id)}}" data-toggle="tooltip" title="Edit"
@@ -108,9 +135,9 @@
                                             @method('DELETE')
                                             @csrf
                                             <button class="btn btn-hover-shine btn-outline-danger border-0 btn-sm"
-                                                type="submit" data-toggle="tooltip" title="Delete"
+                                                type="submit" data-toggle="tooltip"
                                                 data-placement="bottom"
-                                                onclick="return confirm('Do you really want to delete this item?')">
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
                                                 <span class="btn-icon-wrapper opacity-8">
                                                     <i class="fa fa-trash fa-w-20"></i>
                                                 </span>
@@ -129,4 +156,40 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script type="text/javascript">
+      $('.trend_choose').change(function(){
+        var trend_val = $(this).val();
+        var product_id = $(this).attr('id');
+        $.ajax({
+                url: "{{ route('trend-choose') }}",
+                method: "GET",
+                data: {
+                    trend_val:trend_val,
+                    product_id:product_id
+                },
+                success: function(data) {
+                   alert('Thay đổi thành công!');
+                }
+            });
+      })
+
+      $('.status_choose').change(function(){
+        var status_val = $(this).val();
+        var product_id = $(this).attr('id');
+        $.ajax({
+                url: "{{ route('product-status-choose') }}",
+                method: "GET",
+                data: {
+                    status_val:status_val,
+                    product_id:product_id
+                },
+                success: function(data) {
+                   alert('Thay đổi thành công!');
+                }
+            });
+      })
+</script>
 @endsection

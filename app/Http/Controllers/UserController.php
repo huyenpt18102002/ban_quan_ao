@@ -17,6 +17,14 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function level_choose(Request $request)
+    {
+        $data = $request->all();
+        $user = User::find($data['user_id']);
+        $user->level = $data['level_val'];
+        $user->save();
+    } 
+    
     public function index()
     {
         //

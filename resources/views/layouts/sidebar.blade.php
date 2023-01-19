@@ -80,6 +80,24 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#">
+                            <i class="metismenu-icon fa fa-university"></i>Nhà cung cấp
+                            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                        </a>
+                        <ul>
+                            <li class="{{ request()->is('admin/manufacturer/*') ? 'mm-active' : '' }}">
+                                <a href="{{route('manufacturer.create')}}">
+                                    <i class="metismenu-icon"></i>Thêm nhà cung cấp
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('admin/manufacturer') ? 'mm-active' : '' }}">
+                                <a href="{{route('manufacturer.index')}}">
+                                    <i class="metismenu-icon"></i>Liệt kê nhà cung cấp
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="{{ request()->is('admin/size') ? 'mm-active' : '' }}">
                         <a href="{{route('size.index')}}">
                             <i class="metismenu-icon fa fa-i-cursor"></i>Size
@@ -110,32 +128,43 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="{{ request()->is('admin/order') ? 'mm-active' : '' }}">
+                        <a href="{{route('order.index')}}">
+                            <i class="metismenu-icon fa fa-i-cursor"></i>Đơn hàng
+                        </a>
+                    </li>
+
                     <li>
                         <a href="#">
-                            <i class="metismenu-icon fa fa-address-card"></i>Đơn hàng
+                            <i class="metismenu-icon fa fa-list-alt"></i>Blog
                             <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                         </a>
                         <ul>
-                            <li>
-                                <a href="./user.html">
-                                    <i class="metismenu-icon"></i>Thêm đơn hàng
+                            <li class="{{ request()->is('admin/blog/*') ? 'mm-active' : '' }}">
+                                <a href="{{route('blog.create')}}">
+                                    <i class="metismenu-icon"></i>Thêm blog
                                 </a>
                             </li>
-                            <li>
-                                <a href="./order.html">
-                                    <i class="metismenu-icon"></i>Liệt kê đơn hàng
+                            <li class="{{ request()->is('admin/blog') ? 'mm-active' : '' }}">
+                                <a href="{{route('blog.index')}}">
+                                    <i class="metismenu-icon"></i>Liệt kê blog
                                 </a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="app-sidebar__heading">Manager Admin</li>
-                    <li>
-                        <a href="#">
-                            <i class="metismenu-icon fa fa-user-circle"></i>Staff
+                    <li class="app-sidebar__heading">Quản lý cửa hàng</li>
+                    <li class="{{ request()->is('admin/store') ? 'mm-active' : '' }}">
+                        <a href="{{route('store.show', 1)}}">
+                            <i class="metismenu-icon fa fa-info"></i>Thông tin cửa hàng
+                        </a>
+                    </li>
+                    <li class="{{ request()->is('admin/user') ? 'mm-active' : '' }}">
+                        <a href="{{route('user.index')}}">
+                            <i class="metismenu-icon fa fa-user-circle"></i>Admin, User
                             <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                         </a>
-                        <ul>
+                        {{-- <ul>
                             <li>
                                 <a href="{{route('user.create')}}">
                                     <i class="metismenu-icon"></i>Thêm staff
@@ -146,7 +175,7 @@
                                     <i class="metismenu-icon"></i>Liệt kê staff
                                 </a>
                             </li>
-                        </ul>
+                        </ul> --}}
                     </li>
                 </ul>
             </div>

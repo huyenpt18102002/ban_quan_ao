@@ -33,9 +33,9 @@
             <div class="main-card mb-3 card">
                 @if($errors->any())
                 <div class="alert alert-danger"><ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{$error}}</li>
-                    @endforeach
+                    @if ($errors->all())
+                    <li>Hãy kiểm tra lại dữ liệu của bạn!</li> 
+                    @endif
                     </ul>
                 </div>
                 @endif
@@ -51,8 +51,11 @@
                         <div class="position-relative row form-group">
                             <label for="name" class="col-md-3 text-md-right col-form-label">Size</label>
                             <div class="col-md-9 col-xl-8">
-                                <input required name="name" id="slug" placeholder="Name" type="text"
+                                <input name="name" id="slug" placeholder="Tên size" type="text"
                                     class="form-control" value="{{isset($size) ? $size->name : ''}}">
+                                    @error('name')
+                                    <small class="text-danger">{{$message}}</small>
+                                @enderror
                             </div>
                         </div>
                         <div class="position-relative row form-group">

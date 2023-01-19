@@ -30,12 +30,12 @@ class LoginController extends Controller
    //protected $redirectTo = RouteServiceProvider::HOME;
    protected function authenticated(){
     if(Auth::user()->level == '1'){
-
-        return redirect('/admin')->with('message', 'Logged in Successfully.');
+        toastr()->success('Thành công', 'Chào mừng bạn đến với trang quản trị Codelean!');
+        return redirect('/admin');
     }
     else{
-         return redirect('/')->with('status', 'Logged in Successfully.');
-        //return redirect('/admin/dashboard')->with('message', 'Logged in Successfully.');
+        toastr()->success('Thành công', 'Đăng nhập thành công!');
+         return redirect('/');
     }
 }
 

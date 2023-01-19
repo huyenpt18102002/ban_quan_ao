@@ -47,12 +47,12 @@
                     <div class="container-fluid">
                     <table id="myTable" class="align-middle mb-0 table table-borderless table-hover">
                         <thead>
-                            <tr>
+                            <tr class="table-primary">
                                 <th class="text-center">ID</th>
                                 <th>Tiêu đề</th>
                                 <th>Ảnh</th>
                                 <th>Trạng thái</th>
-                                <th class="text-center">Actions</th>
+                                <th class="text-center">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,7 +100,7 @@
                                         <button class="btn btn-hover-shine btn-outline-danger border-0 btn-sm"
                                             type="submit" data-toggle="tooltip" title="Delete"
                                             data-placement="bottom"
-                                            onclick="return confirm('Nếu xóa danh mục này các sản phẩm thuộc danh mục cũng sẽ bị xóa? Bạn chắc chắn muốn xóa?')">
+                                            onclick="return confirm('Bạn chắc chắn muốn xóa?')">
                                             <span class="btn-icon-wrapper opacity-8">
                                                 <i class="fa fa-trash fa-w-20"></i>
                                             </span>

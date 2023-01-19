@@ -85,6 +85,34 @@
     <script src="{{asset('front/js/jquery.slicknav.js')}}"></script>
     <script src="{{asset('front/js/owl.carousel.min.js')}}"></script>
     <script src="{{asset('front/js/main.js')}}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+          $('#timkiem').keyup(function(){
+             $('#result').html('');
+             var search = $('#timkiem').val();
+             if(search != ''){
+                $('#result').css('display', 'inherit');
+                var expression = new RegExp(search, "i");
+                $.getJSON('/json/product.json', function(data){
+                   $.each(data, function(key, value){
+                      if(value.name.search(expression) != -1){
+                         $('#result').append('<li class="list-group-item" style="cursor:pointer"><img height="30" width="40" src="/uploads/product_des/'+value.image+'">'+value.name+'</li>');
+                      }
+                   });
+                })
+             }else{
+                $('#result').css('display', 'none');
+             }
+          })
+          $('#result').on('click', 'li', function(){
+             var click_text = $(this).text().split('|');
+             $('#timkiem').val($.trim(click_text[0]));
+             $('#result').html('');
+             $('#result').css('display', 'none');
+          });
+        })
+       </script>
 </body>
 
 </html>

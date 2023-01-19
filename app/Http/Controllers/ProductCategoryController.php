@@ -50,6 +50,7 @@ class ProductCategoryController extends Controller
                 'name.required' => 'Tên danh mục bắt buộc phải nhập.',
                 'name.max' => 'Tên danh mục chỉ dài tối đa 255 kí tự.',
                 'name.unique' => 'Tên danh mục đã tồn tại.',
+                'slug.required' => 'Tên danh mục bắt buộc phải nhập.',
                 'slug.unique' => 'Slug danh mục đã tồn tại.',
             ]
         );
@@ -58,7 +59,7 @@ class ProductCategoryController extends Controller
         $category->name = $data['name'];
         $category->slug = $data['slug'];
         $category->save();
-        //toastr()->success('Success', 'Thêm danh mục thành công.');
+        toastr()->success('Thành công', 'Thêm danh mục thành công.');
         return redirect()->route('category.index');
     }
 
@@ -112,7 +113,7 @@ class ProductCategoryController extends Controller
         $category->name = $data['name'];
         $category->slug = $data['slug'];
         $category->save();
-        //toastr()->success('Success', 'Thêm danh mục thành công.');
+        toastr()->success('Thành công', 'Cập nhật danh mục thành công.');
         return redirect()->route('category.index');
     }
 
@@ -131,7 +132,7 @@ class ProductCategoryController extends Controller
             $product = Product::whereIn('product_category_id', [$category->id])->delete();
     }
         $category->delete();
-        //toastr()->info('Success', 'Xóa danh mục thành công.');
+        toastr()->info('Thành công', 'Xóa danh mục thành công.');
         return redirect()->back();
     }
 }

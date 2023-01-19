@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Blog;
+use App\Models\User;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -41,4 +43,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function blog(){
+        return $this ->HasMany(Blog::class, 'user_id', 'id');
+    }
+
+    public function user(){
+        return $this ->HasMany(User::class, 'user_id', 'id');
+    }
 }

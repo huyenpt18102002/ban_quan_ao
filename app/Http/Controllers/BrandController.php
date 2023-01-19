@@ -60,7 +60,7 @@ class BrandController extends Controller
         $brand->name = $data['name'];
         $brand->slug = $data['slug'];
         $brand->save();
-        //toastr()->success('Success', 'Thêm danh mục thành công.');
+        toastr()->success('Thành công', 'Thêm thương hiệu thành công.');
         return redirect()->route('brand.index');
        
     }
@@ -115,7 +115,7 @@ class BrandController extends Controller
         $brand->name = $data['name'];
         $brand->slug = $data['slug'];
         $brand->save();
-        //toastr()->success('Success', 'Thêm danh mục thành công.');
+        toastr()->success('Thành công', 'Cập nhật thương hiệu thành công.');
         return redirect()->route('brand.index');
     }
 
@@ -134,7 +134,7 @@ class BrandController extends Controller
             $product = Product::whereIn('brand_id', [$brand->id])->delete();
     }
         $brand->delete();
-        //toastr()->info('Success', 'Xóa danh mục thành công.');
+        toastr()->info('Thành công', 'Xóa thương hiệu thành công.');
         return redirect()->back();
     }
 }

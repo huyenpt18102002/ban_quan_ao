@@ -466,8 +466,13 @@ ol {
 .inner-header .advanced-search .input-group {
 	max-width: 70%;
 	height: 100%;
+	position: relative;
 }
 
+.inner-header .advanced-search .input-group ul{
+	margin-top:25px;
+	z-index: 99;
+}
 .inner-header .advanced-search .input-group input {
 	width: 100%;
 	height: 100%;
@@ -2787,7 +2792,6 @@ ol {
 
 .cart-buttons .up-cart {
 	color: #252525;
-	background: #f3f3f3;
 	border: 2px solid #ebebeb;
 	padding: 12px 20px 12px 20px;
 }
@@ -2922,6 +2926,13 @@ ol {
 	color: #d85d5c;
 }
 
+.checkout-form h5 i {
+	width: 100%;
+	height: 46px;
+	font-size: 20px;
+	margin: 25px;
+	padding: 15px;
+}
 .checkout-form input {
 	width: 100%;
 	height: 46px;

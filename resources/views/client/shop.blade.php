@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb-text">
-                            <a href="index.html"><i class="fa fa-home"></i>Home</a>
+                            <a href="{{route('homepage')}}"><i class="fa fa-home"></i>Home</a>
                             <span>Shop</span>
                         </div>
                     </div>
@@ -31,9 +31,7 @@
                                         <select name="" id="" class="sorting">
                                             <option value="">Default sorting</option>
                                         </select>
-                                        <select name="" id="" class="p-show">
-                                            <option value="">Show:</option>
-                                        </select>
+                                    
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5 text-right">
@@ -50,6 +48,8 @@
                                             <img src="{{asset('uploads/product_des/'.$prod->image)}}" alt="" width="100%" height="290px">
                                             @if ($prod->discount)
                                             <div class="sale pp-sale">
+                                                {{round(100-($prod->discount/$prod->price*100))}}%
+                                                <br>
                                                 Sale
                                             </div>
                                             @endif
@@ -58,13 +58,13 @@
                                             </div>
                                             <ul>
                                                 <li class="w-icon active"><a href=""><i class="icon_bag_alt"></i></a></li>
-                                                <li class="quick-view"><a href="{{route('san-pham', $prod->slug)}}">+ Quick View</a></li>
+                                                <li class="quick-view"><a href="{{route('san-pham', $prod->slug)}}">+ Xem chi tiết</a></li>
                                                 <li class="w-icon"><a href=""><i class="fa fa-random"></i></a></li>
                                             </ul>
                                         </div>
                                         <div class="pi-text">
                                             <div class="catagory-name">{{$prod->brand->name}}</div>
-                                            <a href="#">
+                                            <a href="{{route('san-pham', $prod->slug)}}">
                                                 <h5>{{$prod->name}}</h5>
                                             </a>
                                             <div class="product-price">

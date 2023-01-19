@@ -19,20 +19,21 @@
         </div>
     </div>
 
-    {{-- @if($errors->any())
-    <div class="alert alert-danger"><ul>
-        @foreach ($errors->all() as $error)
-            <li>{{$error}}</li>
-        @endforeach
+    @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @if ($errors->all())
+            <li>Hãy kiểm tra lại dữ liệu của bạn!</li> 
+            @endif
         </ul>
     </div>
-    @endif --}}
+    @endif
 
     <div class="row">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
                 <div class="card-body">
-                    @if(!isset($product))
+                @if(!isset($product))
                     {!! Form::open(['route'=>'product.store','method'=>'POST','enctype'=>'multipart/form-data']) !!}
                 @else
                     {!! Form::open(['route'=>['product.update',$product->id],'method'=>'PUT','enctype'=>'multipart/form-data']) !!}
@@ -73,31 +74,53 @@
                             {!! Form::select('category_id', $category, isset($product) ? $product->category_id : '', ['class'=>'form-control']) !!}
                         </div>
                          </div>
+                         <div class="position-relative row form-group">
+                            <div class="col-md-3 text-md-right col-form-label">
+                            {!! Form::label('Manufacturer', 'Nhà sản xuất', []) !!} 
+                            </div>
+                            <div class="col-md-9 col-xl-8">
+                            {!! Form::select('manufacturer_id', $manufacturer, isset($product) ? $product->manufacturer_id : '', ['class'=>'form-control']) !!}
+                            </div>
+                        </div>
                         <div class="position-relative row form-group">
                             <div class="col-md-3 text-md-right col-form-label">
                             {!! Form::label('name', 'Tên sản phẩm', []) !!}
                         </div>
                         <div class="col-md-9 col-xl-8">
                             {!! Form::text('name', isset($product) ? $product->name : '', ['class'=>'form-control','placeholder'=>'...','id'=>'slug','onkeyup'=>'ChangeToSlug()']) !!}
+                            @error('name')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
                         </div>
                         </div>
                         <div class="position-relative row form-group">
-                            <div class="col-md-3 text-md-right col-form-label">
-                            {!! Form::label('slug', 'Đường dẫn', []) !!}
-                            </div>
-                            <div class="col-md-9 col-xl-8">
-                            {!! Form::text('slug', isset($product) ? $product->slug : '', ['class'=>'form-control','placeholder'=>'...','id'=>'convert_slug', 'readonly']) !!}
-                        </div>
+                            {!! Form::hidden('slug', isset($product) ? $product->slug : '', ['class'=>'form-control','placeholder'=>'...','id'=>'convert_slug', 'readonly']) !!}
                         </div>
     
+                        <div class="position-relative row form-group">
+                            <div class="col-md-3 text-md-right col-form-label">
+                            {!! Form::label('price_origin', 'Giá nhập', []) !!}
+                            </div>  
+                            <div class="col-md-9 col-xl-8">
+                            {!! Form::number('price_origin', isset($product) ? $product->price_origin : '', ['class'=>'form-control','placeholder'=>'...','min'=>'0']) !!}
+                            @error('price_origin')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
+                        </div>
+                        </div>
+
                         <div class="position-relative row form-group">
                             <div class="col-md-3 text-md-right col-form-label">
                             {!! Form::label('price', 'Giá', []) !!}
                             </div>  
                             <div class="col-md-9 col-xl-8">
                             {!! Form::number('price', isset($product) ? $product->price : '', ['class'=>'form-control','placeholder'=>'...','min'=>'0']) !!}
+                            @error('price')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
                         </div>
                         </div>
+                        
                         <div class="position-relative row form-group">
                             <div class="col-md-3 text-md-right col-form-label">
                             {!! Form::label('discount', 'Giá khuyến mại', []) !!}
@@ -112,6 +135,9 @@
                         </div>
                         <div class="col-md-9 col-xl-8">
                             {!! Form::text('sku', isset($product) ? $product->sku : '', ['class'=>'form-control','placeholder'=>'...']) !!}
+                            @error('sku')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
                         </div>
                         </div>
                         <div class="position-relative row form-group">
@@ -120,6 +146,9 @@
                         </div>
                         <div class="col-md-9 col-xl-8">
                             {!! Form::text('tag', isset($product) ? $product->tag : '', ['class'=>'form-control','placeholder'=>'...']) !!}
+                            @error('tag')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
                         </div>
                         </div>
                        
@@ -131,7 +160,19 @@
                                 @if(!isset($product))         
                                 <input type="checkbox" name="featured"/>
                                 @else
-                                <input type="checkbox" name="featured" {{$product->featured=='0' ? 'checked':''}}/>
+                                <input type="checkbox" name="featured" {{$product->featured=='0' ? 'checked':''}}/> 
+                                @endif
+                            </div>
+                        </div>
+                        <div class="position-relative row form-group">
+                            <div class="col-md-3 text-md-right col-form-label">
+                            {!! Form::label('status', 'Status') !!}
+                        </div>
+                            <div class="col-md-9 col-xl-8">  
+                                @if(!isset($product))         
+                                <input type="checkbox" name="status"/>
+                                @else
+                                <input type="checkbox" name="status" {{$product->status=='1' ? 'checked':''}}/> <small>Check:ẩn</small>
                                 @endif
                             </div>
                         </div>
@@ -145,6 +186,9 @@
                         </div>
                         <div class="col-md-9 col-xl-8">
                             {!! Form::textarea('description', isset($product) ? $product->description : '', ['style'=>'resize:none', 'class'=>'form-control','placeholder'=>'...','id'=>'description']) !!}
+                            @error('description')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
                         </div>
                         </div>
                     </div>
@@ -157,6 +201,11 @@
                         </div>
                         <div class="col-md-9 col-xl-8">
                             {!! Form::file('image', ['class'=>'form-control']) !!}
+                            @if(!isset($product))
+                            @error('image')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
+                        @endif
                             @if(isset($product))
                               <img class="me-4 border" style="margin:10px;width:130px;height:150px;" src="{{asset('uploads/product_des/'.$product->image)}}">
                             @endif
@@ -206,6 +255,9 @@
                                         Số lượng:  <input type="number" name="sizequantity[{{$sizeitem->id}}]" style="width: 70px; border:1px solid">
                                      </div>
                                 </div>  
+                                @error('size')
+                                <small class="text-danger">{{$message}}</small>
+                            @enderror
                                 @empty
                                 <div class="col-md-12">
                                     <h2>Không tìm thấy size</h2>
@@ -240,9 +292,9 @@
                         </div>
                         <div class="table-responsive">
                             <div class="container">
-                            <table class="table align-middle mb-0 table-border table-hover">
+                            <table class="table align-middle mb-0 table-border">
                                 <thead>
-                                    <tr>
+                                    <tr class="table-primary">
                                         <th>Size</th>
                                         <th>Số lượng</th>
                                         <th>Xóa</th>
