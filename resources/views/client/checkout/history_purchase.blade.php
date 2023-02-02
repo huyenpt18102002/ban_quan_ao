@@ -57,9 +57,9 @@
                                         <th>Ngày đặt hàng</th>
                                         <th>Hình thức thanh toán</th>
                                         <th>Tình trạng đơn hàng</th>
-                                        <th>Xem chi tiết</th>
+                                        <th>Xem chi tiết</th> 
                                         <th>   
-                                                Action
+                                            
                                        </th>
                                     </tr>
                                 </thead>

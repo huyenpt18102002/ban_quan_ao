@@ -25,6 +25,8 @@
     <link href=" https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
     <link href="./dashboard/main.css" rel="stylesheet">
     <link href="./dashboard/my_style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -34,7 +36,7 @@
     <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
         <div class="app-header header-shadow">
             <div class="app-header__logo">
-                <a href="{{route('admin')}}"><div class="logo-src"></div></a>
+                <a href="{{url('admin')}}"><div class="logo-src"></div></a>
                 <div class="header__pane ml-auto">
                     <div>
                         <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
@@ -244,6 +246,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -288,7 +291,52 @@
             document.getElementById('convert_slug').value = slug;
         }
     </script>
+    <script type="text/javascript">
+        $('.orderst_choose').change(function(){
+          var orderst_val = $(this).val();
+          var order_id = $(this).attr('id');
+          $.ajax({
+                  url: "{{ route('orderst-choose') }}",
+                  method: "GET",
+                  data: {
+                      orderst_val:orderst_val,
+                      order_id:order_id
+                  },
+                  success: function(data) {
+                     alert('Thay đổi thành công!');
+                  }
+              });
+        })
+  </script>
 
+    {{-- <script>
+        $( function() {
+        $( "#datepicker" ).datepicker();
+        $( "#datepicker2" ).datepicker();
+        } );
+    </script>
+     <script type="text/javascript">
+        $(document).ready(function() {
+        $('#btn-filter').click(function() {
+            var _token = $('input[name="_token"]').val();
+            var from_date = $('#datepicker').val();
+            var to_date = $('#datepicker2').val();
+            $.ajax({
+                    url: "{{ route('filter-by-date') }}",
+                    method: "POST",
+                    data: {
+                        _token:_token,
+                        from_date:from_date,
+                        to_date:to_date
+                    },
+                    success: function(data) {
+                        // alert('Thay đổi thành công!');
+                    }
+                });
+
+        });
+        });
+    </script> --}}
 
      @yield('script')
 </body>

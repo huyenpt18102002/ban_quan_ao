@@ -43,6 +43,12 @@ class ProductController extends Controller
     {
         //
         $list = Product::with('productCategory', 'brand')->orderBy('updated_at','DESC')->get();
+        $countlist = Product::count('id');
+        // $saphet = Product::with('productCategory', 'brand', ['product_size' => function($q){
+        //     $q->where('quantity','<=', 10);
+        //     }
+        //     ])->orderBy('updated_at','DESC')->get();
+        // dd($saphet);
         $category = ProductCategory::pluck('name','id');
         $brand = Brand::pluck('name','id');
 
@@ -54,7 +60,7 @@ class ProductController extends Controller
         }else{
             File::put($path.'product.json', json_encode($list));
         }
-        return view('admin.product.index', compact('list', 'category', 'brand'));
+        return view('admin.product.index', compact('list', 'category', 'brand', 'countlist'));
     }
 
     /**

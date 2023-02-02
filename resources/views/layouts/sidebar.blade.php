@@ -41,10 +41,16 @@
         <div class="scrollbar-sidebar">
             <div class="app-sidebar__inner">
                 <ul class="vertical-nav-menu">
+                    <li class="app-sidebar__heading">Dashboard</li>
+                    <li class="{{ request()->is('admin') ? 'mm-active' : '' }}">
+                        <a href="{{url('admin')}}">
+                            <i class="metismenu-icon fa fa-book"></i>Dashboard
+                        </a>
+                    </li>
                     <li class="app-sidebar__heading">Menu</li>
 
-                    <li class="">
-                        <a href="#">
+                    <li>
+                        <a>
                             <i class="metismenu-icon fa fa-book"></i>Danh mục sản phẩm
                             <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                         </a>
@@ -130,7 +136,7 @@
                     </li>
                     <li class="{{ request()->is('admin/order') ? 'mm-active' : '' }}">
                         <a href="{{route('order.index')}}">
-                            <i class="metismenu-icon fa fa-i-cursor"></i>Đơn hàng
+                            <i class="metismenu-icon fa fa-shopping-cart"></i>Đơn hàng <span class="badge badge-danger">{{$order_new}} <sup>new</sup></span>
                         </a>
                     </li>
 

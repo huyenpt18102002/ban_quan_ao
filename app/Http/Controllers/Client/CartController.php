@@ -27,7 +27,7 @@ class CartController extends Controller
             $info = Store::first();
             $category = ProductCategory::get();
             $cart = \Cart::getContent();
-           // dd($cart);
+          // dd($cart);
             return view('client.cart.show', compact('category', 'cart', 'info'));
         }
     }
@@ -66,6 +66,7 @@ class CartController extends Controller
                 'size' => $sizename,
                 'image' => $product->image,
                 'slug' => $product->slug,
+                'price_origin'=>$product->price_origin,
             ),
         ));
         toastr()->success('Thành công', 'Thêm vào giỏ hàng thành công.');

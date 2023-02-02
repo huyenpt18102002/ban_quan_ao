@@ -102,8 +102,6 @@
                         <div class="col-lg-4">
                             <div class="cart-buttons">
                                 <a href="{{route('shop')}}" class="primary-btn up-cart">Tiếp tục dạo shop</a>
-                                {{-- <a href="{{}}" class="primary-btn up-cart">Update Cart</a> --}}
-                                {{-- <button type="submit" class="primary-btn up-cart">Cập nhật giỏ hàng</button> --}}
                             </div>
                             <div class="discount-coupon">
                                 <h4>Discount Code</h4>

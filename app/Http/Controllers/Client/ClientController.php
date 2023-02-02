@@ -8,26 +8,42 @@ use App\Models\Store;
 use App\Models\Slider;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\ProductComment;
 use App\Models\ProductCategory;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+
 
 class ClientController extends Controller
 {
     //
-
+    
     public function timkiem()
     {
-        if(isset($_GET['search'])){
+        if(isset($_GET['search']) && !empty($_GET['search'])){
            $search =  $_GET['search'];
           
-           $product = Product::where('name', 'LIKE', '%'.$search.'%')->orderBy('updated_at', 'DESC')->paginate(12);
+           if(isset($_GET['sort_by'])){
+            $sort_by = $_GET['sort_by'];
+           // dd($sort_by);
+           if($sort_by == 'tangdan'){
+               $product_shop = Product::where('name', 'LIKE', '%'.$search.'%')->orderBy('price', 'ASC')->paginate(9);
+           }elseif($sort_by == 'giamdan'){
+               $product_shop = Product::where('name', 'LIKE', '%'.$search.'%')->orderBy('price', 'DESC')->paginate(9); 
+           }
+       }
+       else{
+           $product = Product::where('name', 'LIKE', '%'.$search.'%')->orderBy('updated_at', 'DESC')->paginate(9);
+       }
 
             $category = ProductCategory::get();
             $brand = Brand::get();
             $info = Store::first();
+            $min_price = Product::min('price');
+             $max_price = Product::max('price');
           
-           return view('client.search', compact('search', 'product', 'category', 'brand', 'info'));
+           return view('client.search', compact('search', 'product', 'category', 'brand', 'info', 'min_price', 'max_price'));
         }else{
             return redirect()->to('/');
         }
@@ -45,36 +61,94 @@ class ClientController extends Controller
         return view('client.home', compact('slider', 'category', 'product_nu', 'product_nam', 'blog', 'info'));
     }
 
-    public function shop()
+    public function shop(Request $request)
     {
         $info = Store::first();
         $category = ProductCategory::get();
         $brand = Brand::get(); 
-        $product_shop = Product::with('brand')->where('status', 0)->orderBy('updated_at', 'DESC')->paginate(9);
-        return view('client.shop', compact('product_shop', 'category', 'brand', 'info'));
+        $min_price = Product::min('price');
+        $max_price = Product::max('price');
+        if(isset($_GET['sort_by'])){
+             $sort_by = $_GET['sort_by'];
+            // dd($sort_by);
+            if($sort_by == 'tangdan'){
+                $product = Product::with('brand')->where('status', 0)->orderBy('price', 'ASC')->paginate(9);
+            }elseif($sort_by == 'giamdan'){
+                $product = Product::with('brand')->where('status', 0)->orderBy('price', 'DESC')->paginate(9); 
+            }
+        }
+        else{
+            //brand
+            $brands = $request->brand ?? [];
+            $brand_ids = array_keys($brands);
+            //price
+
+    $product = Product::with('brand')->where('status', 0);
+    if($brand_ids != null){
+        $product = $product->whereIn('brand_id', $brand_ids);
+    }if(isset($_GET['start_price']) && $_GET['end_price']){
+        $priceMin = $_GET['start_price'];
+        $priceMax =  $_GET['end_price'];
+        $product = $product->whereBetween('price',[$priceMin, $priceMax]);
+    }
+    
+    $product = $product->orderBy('updated_at', 'DESC')->paginate(9);
+        }
+       return view('client.shop', compact('product', 'category', 'brand', 'info', 'min_price', 'max_price'));
     }
 
-    public function category($slug)
+    public function category($slug, Request $request)
     {
         $info = Store::first();
         $category = ProductCategory::get();
         $brand = Brand::get();
         $cateslug = ProductCategory::where('slug',$slug)->first();
-        $product = Product::where('status', 0)->where('product_category_id',$cateslug->id)->orderBy('updated_at', 'DESC')->paginate(9);
+        $min_price = Product::min('price');
+        $max_price = Product::max('price');
+        if(isset($_GET['sort_by'])){
+            $sort_by = $_GET['sort_by'];
+           if($sort_by == 'tangdan'){
+               $product = Product::with('brand')->where('status', 0)->where('product_category_id',$cateslug->id)->orderBy('price', 'ASC')->paginate(9);
+           }elseif($sort_by == 'giamdan'){
+               $product = Product::with('brand')->where('status', 0)->where('product_category_id',$cateslug->id)->orderBy('price', 'DESC')->paginate(9); 
+           }
+       }
+       else{
+        $brands = $request->brand ?? [];
+        $brand_ids = array_keys($brands);
 
-        return view('client.category', compact('cateslug', 'product', 'category', 'brand', 'info'));
+        $product = Product::with('brand')->where('status', 0)->where('product_category_id',$cateslug->id);
+        if($brand_ids != null){
+            $product = $product->whereIn('brand_id', $brand_ids);
+        }
+        $product = $product->orderBy('updated_at', 'DESC')->paginate(9);
+       
+       }
+        return view('client.shop', compact('cateslug', 'product', 'category', 'brand', 'info', 'min_price', 'max_price'));
     }
 
+    private function filter($product, Request $request)
+    {
+        $brands = $request->brand ?? [];
+        $brand_ids = array_keys($brands);
+        $product = $brand_ids != null ? $product->whereIn('brand_id', $brand_ids) : $product;
+        return $product;
+    }
+    
     public function product($slug)
     {
         $info = Store::first();
         $category = ProductCategory::get();
         $brand = Brand::get(); 
         $product = Product::with('productCategory','brand', 'productImage', 'product_size', 'productComment')->where('status', 0)->where('slug',$slug)->first();
+        $avg_rating =  ProductComment::where('product_id', $product->id)->avg('rating');
+        $avg_rating = round($avg_rating);
         $related_product = Product::with('productCategory')->where('status', 0)->where('product_category_id',$product->productCategory->id)
         ->orderBy(DB::raw('RAND()'))->whereNotIn('slug',[$slug])->get()->take(4);
-
-        return view('client.product', compact('product', 'category', 'brand', 'related_product', 'info'));
+        
+        $min_price = Product::min('price');
+        $max_price = Product::max('price');
+        return view('client.product', compact('product', 'avg_rating', 'category', 'brand', 'related_product', 'info', 'min_price', 'max_price'));
     }
 
     public function blog()
@@ -102,5 +176,15 @@ class ClientController extends Controller
         $info = Store::first();
         $category = ProductCategory::get();
         return view('client.contact', compact('category', 'info'));
+    }
+
+    //filter product
+    public function sort_asc(Request $request)
+    {
+        $info = Store::first();
+        $category = ProductCategory::get();
+        $brand = Brand::get(); 
+        $product_shop = Product::with('brand')->where('status', 0)->orderBy('price', 'ASC')->paginate(9);
+        return redirect()->back();
     }
 }

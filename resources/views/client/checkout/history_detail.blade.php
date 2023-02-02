@@ -58,10 +58,13 @@
                                         <th>Số lượng</th>
                                         <th>Đơn giá</th>
                                         <th>Tổng</th>
+                                        @if ($order->status == 3)
+                                            <th>Đánh giá</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($orderdetail as $item)
+                                    @forelse ($orderdetail as $key=>$item)
                                     <tr>
                                         <td class="cart-pic first-row">
                                             <a href="{{route('san-pham', $item->product->slug)}}">
@@ -85,10 +88,29 @@
                                             @endif 
                                         </td>
                                         <td class="p-price first-row">{{number_format($item->total).',000'}} <sup>đ</sup></td>
+                                        @if ($order->status == 3)
+                                        <td class="first-row"> 
+                                            @if ($item->comment == 0)
+                                            <a href="{{route('danh-gia', $item->id)}}">
+                                                <button class="btn btn-primary">Đánh giá sản phẩm</button>
+                                            </a>
+                                            @endif
+                                        </td>
+                                        @else
+                                        <td></td>
+                                        @endif
+                                     
                                     </tr>
                                     @empty
-                                    <tr>  <th colspan="6"><h4>Không có sản phẩm nào trong giỏ hàng của bạn!</h4></th></tr>
+                                    <tr>  <th colspan="6"><h4>Không có sản phẩm!</h4></th></tr>
                                     @endforelse
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>TỔNG TIỀN:</td>
+                                        <td>  <div class="badge badge-danger">{{number_format($total_order)}},000 <sup>đ</sup></div></td>
+                                    </tr>
                                 </tbody>
                             </table>
                     </div>

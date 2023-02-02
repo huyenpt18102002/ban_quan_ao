@@ -8,7 +8,12 @@
                     <div class="col-lg-12">
                         <div class="breadcrumb-text">
                             <a href="{{route('homepage')}}"><i class="fa fa-home"></i>Home</a>
+                            @if(isset($cateslug))
+                            <a href="{{route('shop')}}">Shop</a>
+                            <span> {{$cateslug->name}}</span>
+                            @else
                             <span>Shop</span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -24,24 +29,38 @@
                     @include('client.layout.sidebar')
                     </div>
                     <div class="col-lg-9 order-1 order-lg-2">
+                        <div class="title">
+                            @if(isset($cateslug))
+                            <h3 style="text-transform:uppercase;">{{$cateslug->name}}</h3>
+                            @else
+                            <h3 style="text-transform:uppercase;">TẤT CẢ SẢN PHẨM</h3>
+                            @endif
+                        </div>
+                        <p></p>
+                        <p></p>
                         <div class="product-show-option">
                             <div class="row">
                                 <div class="col-lg-7 col-md-7">
                                     <div class="select-option">
-                                        <select name="" id="" class="sorting">
-                                            <option value="">Default sorting</option>
-                                        </select>
+                                        <form>
+                                            @csrf
+                                            <select name="sort" id="sort" class="sorting">
+                                                <option value="{{Request::url()}}?sort_by=none">--Lọc theo giá--</option>
+                                            <option value="{{Request::url()}}?sort_by=tangdan">Thấp đến cao</option>
+                                                <option value="{{Request::url()}}?sort_by=giamdan">Cao đến thấp</option>
+                                            </select>
+                                        </form>
                                     
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5 text-right">
-                                    <p>Show 01 - 12 Of {{$product_shop->count()}} Product</p>
+                                    <p>Show 01 - 9 Of {{$product->count()}} Product</p>
                                 </div>
                             </div>
                         </div>
                         <div class="product-list">
                             <div class="row">
-                                @foreach ($product_shop as $key=>$prod)
+                                @foreach ($product as $key=>$prod)
                                 <div class="col-lg-4 col-sm-6">
                                     <div class="product-item">
                                         <div class="pi-pic">
@@ -84,11 +103,32 @@
                             </div>
                         </div>
                         <div style="text-center">
-                        {!!$product_shop->links("pagination::bootstrap-4")!!}
+                        {!!$product->links("pagination::bootstrap-4")!!}
                         </div>
                     </div>
                 </div>
             </div>
           </div>
           <!--Product section end-->
+@endsection
+
+@section('script')
+<script type="text/javascript">
+    $(document).ready(function(){
+        $( "#slider-range" ).slider({
+      orientation: "horizontal",
+      range: true,
+      min: {{$min_price}}, 
+      max: {{$max_price}},
+      values: [ {{$min_price}}, {{$max_price}} ],
+      slide: function( event, ui ) {
+        $( "#amount" ).val(ui.values[ 0 ] + " K - " + ui.values[ 1 ] +"K");
+        $( "#start_price" ).val(ui.values[ 0 ]);
+        $( "#end_price" ).val(ui.values[ 1 ]);
+      }
+    });
+    $( "#amount" ).val($( "#slider-range" ).slider( "values", 0 ) +
+      "K - " + $( "#slider-range" ).slider( "values", 1 ) +"K" );
+    });
+</script>
 @endsection

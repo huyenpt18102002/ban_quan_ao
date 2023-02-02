@@ -57,11 +57,18 @@
                                             <a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>
                                         </div>
                                         <div class="pd-rating">
+                                            @for ($i=1; $i<=5; $i++)
+                                            @if ($i <= $avg_rating)
                                             <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                            @else
                                             <i class="fa fa-star-o"></i>
+                                            @endif
+                                        @endfor
+                                            {{-- <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i> --}}
                                             <span>({{count($product->productComment)}})</span>
                                         </div>
                                         <div class="pd-desc">
@@ -88,8 +95,6 @@
                                                 <label class="sizeSelectLabel" for="sm-{{$si->size->name}}" aria-disabled="true" style="
                                                     color: rgba(0,0,0,.26);
                                                     cursor: not-allowed;">{{$si->size->name}}
-                                                     {{-- <input type="hidden" name="qtysize" value="{{$si->quantity}}" id="sm"> <label for="sm" style="display: none"></label>
-                                                     <input type="text" name="size_id" value="{{$si->id}}" id="size"> <label for="size" style="display: none"></label> --}}
                                                 </label>
                                             </div> 
                                             @else
@@ -97,8 +102,6 @@
                                                
                                                 <input type="radio" name="size_id" value="{{$si->id}}" id="sm-{{$si->size->name}}">
                                                 <label class="sizeSelectLabel" for="sm-{{$si->size->name}}" aria-disabled="false">{{$si->size->name}} 
-                                                    {{-- <input type="hidden" name="qtysize" value="{{$si->quantity}}" id="sm"> <label for="sm" style="display: none"></label> 
-                                                    <input type="text" name="size_id" value="{{$si->id}}" id="size"> <label for="size" style="display: none"></label> --}}
                                                 </label>
                                             </div>
                                             @endif
@@ -177,14 +180,6 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="p-catagory">Số lượng sản phẩm</td>
-                                                    <td>
-                                                        <div class="p-stock"> @foreach ($product->product_size as $si)
-                                                            {{$si->quantity}} &nbsp;
-                                                             @endforeach</div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
                                                     <td class="p-catagory">Size</td>  
                                                     <td>
                                                         <div class="p-size">
@@ -192,6 +187,14 @@
                                                            {{$si->size->name}} &nbsp;
                                                             @endforeach
                                                         </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="p-catagory">Số lượng sản phẩm</td>
+                                                    <td>
+                                                        <div class="p-stock"> @foreach ($product->product_size as $si)
+                                                            {{$si->quantity}} &nbsp;
+                                                             @endforeach</div>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -207,38 +210,26 @@
                                         <div class="customer-review-option">
                                             <h4>{{count($product->productComment)}} bình luận</h4>
                                             <div class="comment-option">
+                                                @foreach ($product->productComment as $com)
                                                 <div class="co-item">
                                                     <div class="avatar-pic">
                                                         <img src="front/img/product-single/avatar-1.png" alt="">
                                                     </div>
                                                     <div class="avatar-text">
                                                         <div class="at-rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-o"></i>
+                                                             @for ($i=1; $i<=5; $i++)
+                                                                @if ($i <= $com->rating)
+                                                                <i class="fa fa-star"></i>
+                                                                @else
+                                                                <i class="fa fa-star-o"></i>
+                                                                @endif
+                                                            @endfor
                                                         </div>
-                                                        <h5>Brandon Kelley <span>27 Aug 2022</span></h5>
-                                                        <div class="at-reply">Nice !</div>
+                                                        <h5>{{$com->user->name}}<span>{{substr($com->created_at, 0, -9)}}</span></h5>
+                                                        <div class="at-reply">{{$com->messages}}</div>
                                                     </div>
                                                 </div>
-                                                <div class="co-item">
-                                                    <div class="avatar-pic">
-                                                        <img src="front/img/product-single/avatar-2.png" alt="">
-                                                    </div>
-                                                    <div class="avatar-text">
-                                                        <div class="at-rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <h5>Brandon Kelley <span>27 Aug 2022</span></h5>
-                                                        <div class="at-reply">Nice !</div>
-                                                    </div>
-                                                </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
@@ -305,4 +296,25 @@
             </div>
         </div>
         <!-- related Product Section End-->
+@endsection
+
+@section('script')
+<script type="text/javascript">
+    $(document).ready(function(){
+        $( "#slider-range" ).slider({
+      orientation: "horizontal",
+      range: true,
+      min: {{$min_price}}, 
+      max: {{$max_price}},
+      values: [ {{$min_price}}, {{$max_price}} ],
+      slide: function( event, ui ) {
+        $( "#amount" ).val(ui.values[ 0 ] + " K - " + ui.values[ 1 ] +"K");
+        $( "#start_price" ).val(ui.values[ 0 ]);
+        $( "#end_price" ).val(ui.values[ 1 ]);
+      }
+    });
+    $( "#amount" ).val($( "#slider-range" ).slider( "values", 0 ) +
+      "K - " + $( "#slider-range" ).slider( "values", 1 ) +"K" );
+    });
+</script>
 @endsection

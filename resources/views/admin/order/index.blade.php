@@ -23,28 +23,39 @@
     <div class="row">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
-
+                {{-- <form autocomplete="off">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p>Tu ngay: <input type="text" id="datepicker" class="form-control"></p>
+                            <input type="button" id="btn-filter" class="btn btn-primary btn-sm" value="Loc ket qua">
+                        </div>
+                        <div class="col-md-2">
+                            <p>Den ngay: <input type="text" id="datepicker2" class="form-control"></p>
+                        </div>
+                    </div>
+                </form> --}}
                 <div class="card-header">
 
                    
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Tất cả</button>
+                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Tất cả ({{$countlist}})</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Chờ xác nhận</button>
+                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Chờ xác nhận ({{$counchoxn}})</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Đã xác nhận</button>
+                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Đã xác nhận ({{$countdaxn}})</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="size-tab" data-bs-toggle="tab" data-bs-target="#size" type="button" role="tab" aria-controls="size" aria-selected="false">Đang vận chuyển</button>
+                            <button class="nav-link" id="size-tab" data-bs-toggle="tab" data-bs-target="#size" type="button" role="tab" aria-controls="size" aria-selected="false">Đang vận chuyển ({{$countdangvc}})</button>
                           </li>
                           <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="ht-tab" data-bs-toggle="tab" data-bs-target="#ht" type="button" role="tab" aria-controls="ht" aria-selected="false">Đã hoàn thành</button>
+                            <button class="nav-link" id="ht-tab" data-bs-toggle="tab" data-bs-target="#ht" type="button" role="tab" aria-controls="ht" aria-selected="false">Đã hoàn thành ({{$countdaht}})</button>
                           </li>
                           <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="huy-tab" data-bs-toggle="tab" data-bs-target="#huy" type="button" role="tab" aria-controls="huy" aria-selected="false">Đã hủy</button>
+                            <button class="nav-link" id="huy-tab" data-bs-toggle="tab" data-bs-target="#huy" type="button" role="tab" aria-controls="huy" aria-selected="false">Đã hủy ({{$countdahuy}})</button>
                           </li>
                       </ul>
                 </div>
@@ -671,22 +682,3 @@
 @endsection
 
 
-@section('script')
-<script type="text/javascript">
-      $('.orderst_choose').change(function(){
-        var orderst_val = $(this).val();
-        var order_id = $(this).attr('id');
-        $.ajax({
-                url: "{{ route('orderst-choose') }}",
-                method: "GET",
-                data: {
-                    orderst_val:orderst_val,
-                    order_id:order_id
-                },
-                success: function(data) {
-                   alert('Thay đổi thành công!');
-                }
-            });
-      })
-</script>
-@endsection

@@ -26,12 +26,19 @@ class OrderController extends Controller
     {
         //
         $list = Order::with('orderDetail', 'user', 'payment')->orderBy('id','DESC')->get();
+        $countlist = Order::count('id');
         $choxn = Order::with('orderDetail', 'user', 'payment')->where('status', 0)->orderBy('id','DESC')->get();
+        $counchoxn = Order::where('status', 0)->count('id');
         $daxn = Order::with('orderDetail', 'user', 'payment')->where('status', 1)->orderBy('id','DESC')->get();
+        $countdaxn = Order::where('status', 1)->count('id');
         $dangvc = Order::with('orderDetail', 'user', 'payment')->where('status', 2)->orderBy('id','DESC')->get();
+        $countdangvc = Order::where('status', 2)->count('id');
         $daht = Order::with('orderDetail', 'user', 'payment')->where('status', 3)->orderBy('id','DESC')->get();
+        $countdaht = Order::where('status', 3)->count('id');
         $dahuy = Order::with('orderDetail', 'user', 'payment')->where('status', 4)->orderBy('id','DESC')->get();
-        return view('admin.order.index', compact('list', 'choxn', 'daxn', 'dangvc', 'daht', 'dahuy'));
+        $countdahuy = Order::where('status', 4)->count('id');
+        return view('admin.order.index', compact('list', 'choxn', 'daxn', 'dangvc', 'daht', 'dahuy', 'countlist', 'counchoxn',
+    'countdaxn', 'countdangvc', 'countdaht', 'countdahuy'));
     }
 
     /**

@@ -20,7 +20,7 @@ class CreateOrderDetailsTable extends Migration
             $table->integer('product_id')->unsigned();
             $table->integer('qty');
             $table->double('total');
-
+            $table->tinyInteger('status')->default('0')->comment('1=comment, 0=no comment');
             $table->timestamps();
         });
     }

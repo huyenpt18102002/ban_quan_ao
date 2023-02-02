@@ -88,6 +88,7 @@ Route::get('/shop/{slug}', [ClientController::class, 'category'])->name('danh-mu
 Route::get('/shop/san-pham/{slug}', [ClientController::class, 'product'])->name('san-pham');
 Route::get('/filter', [IndexController::class, 'filter'])->name('filter');
 
+
 //cart
 Route::post('/add-cart', [CartController::class, 'add_cart'])->name('add-cart');
 Route::get('/list-cart', [CartController::class, 'list_cart'])->name('list-cart');
@@ -114,3 +115,10 @@ Route::post('/clear-all-cart', [CartController::class, 'clear_all_cart'])->name(
   Route::get('/history-detail/{id}', [CheckoutController::class, 'history_detail'])->name('history-detail');
   Route::put('/client-huy/{id}', [CheckoutController::class, 'client_huy'])->name('client-huy');
   Route::put('/client-nhan-hang/{id}', [CheckoutController::class, 'client_nhan_hang'])->name('client-nhan-hang');
+
+  //rating
+  Route::get('/danh-gia/{id}', [CheckoutController::class, 'danh_gia'])->name('danh-gia');
+  Route::post('/add-rating/{id}', [CheckoutController::class, 'add_rating'])->name('add-rating');
+
+  //vnpay
+  Route::post('/vnpay', [CheckoutController::class, 'vnpay'])->name('vnpay');

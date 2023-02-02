@@ -34,9 +34,14 @@
                         <div class="row">
                             <div class="col-lg-7 col-md-7">
                                 <div class="select-option">
-                                    <select name="" id="" class="sorting">
-                                        <option value="">Default sorting</option>
-                                    </select>
+                                    <form>
+                                        @csrf
+                                        <select name="sort" id="sort" class="sorting">
+                                            <option value="{{Request::url()}}?sort_by=none">--Lọc theo giá--</option>
+                                        <option value="{{Request::url()}}?sort_by=tangdan">Thấp đến cao</option>
+                                            <option value="{{Request::url()}}?sort_by=giamdan">Cao đến thấp</option>
+                                        </select>
+                                    </form>
                                    
                                 </div>
                             </div>
